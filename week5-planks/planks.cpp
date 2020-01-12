@@ -45,15 +45,15 @@ void testcase(){
         }
         auto bounds = std::equal_range(assignments2.begin(), assignments2.end(), curr);
         long counter = std::distance(bounds.first, bounds.second);
-        // result+=counter;
-        // if(std::lower_bound(assignments2.begin(), assignments2.end(), curr)!=assignments2.end()){
-        if(counter){
-            std::cout << "1" << std::endl;
-            return;
-        }
+        result+=counter;
+        // if(std::find(assignments2.begin(), assignments2.end(), curr)!=assignments2.end()){
+        // if(counter){
+        //     std::cout << "1" << std::endl;
+        //     return;
+        // }
     }
-    std::cout << "0" << std::endl;
-    // std::cout << result/24 << std::endl;
+    // std::cout << "0" << std::endl;
+    std::cout << result/24 << std::endl;
 }
 
 int main(int argc, char const *argv[]) {
