@@ -1,20 +1,25 @@
 #include <iostream>
 #include <vector>
 #include <algorithm> 
+#include <climits>
 
-int min_move(int pos, std::vector<std::vector<int> > & trans, std::vector<int> min_m, std::vector<int> max_m);
+int min_move(int pos, std::vector<std::vector<int> > & trans, std::vector<int> & min_m, std::vector<int> & max_m);
 
-int max_move(int pos, std::vector<std::vector<int> > &trans, std::vector<int> min_m, std::vector<int> max_m){
-    if(max_m[pos]!= -1) return min_m[pos];
-    for(auto it = trans[pos].begin(); it != trans[pos].end(); ++it)
-        max_m[pos] = std::max(max_m[pos], 1 + min_move(*it, trans, min_m, max_m));
+int max_move(int pos, std::vector<std::vector<int> > &trans, std::vector<int> & min_m, std::vector<int> & max_m){
+    if(max_m[pos]!= -1) return max_m[pos];
+    for(auto it = trans[pos].begin(); it != trans[pos].end(); ++it){
+        min_m[*it] = min_move(*it, trans, min_m, max_m);
+        max_m[pos] = std::max(max_m[pos], 1 + min_m[*it]);
+    }
     return max_m[pos];
 }
 
-int min_move(int pos, std::vector<std::vector<int> > & trans, std::vector<int> min_m, std::vector<int> max_m){
+int min_move(int pos, std::vector<std::vector<int> > & trans, std::vector<int> & min_m, std::vector<int> &max_m){
     if(min_m[pos]!= INT_MAX) return min_m[pos];
-    for(auto it = trans[pos].begin(); it != trans[pos].end(); ++it)
-        min_m[pos] = std::min(min_m[pos], max_move(*it, trans, min_m, max_m)+1);
+    for(auto it = trans[pos].begin(); it != trans[pos].end(); ++it){
+        max_m[*it] = max_move(*it, trans, min_m, max_m);
+        min_m[pos] = std::min(min_m[pos], 1+ max_m[*it]);
+    }
     return min_m[pos];
 }
 
